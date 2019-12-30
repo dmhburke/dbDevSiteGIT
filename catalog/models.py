@@ -22,9 +22,10 @@ class uploadImage(models.Model):
 @receiver(post_save, sender=uploadImage, dispatch_uid="update_image_profile")
 def update_image(sender, instance, **kwargs):
   if instance.uploadImage:
-    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     # MEDIA_CONVERTER = '/catalog/static'
     # fullpath = BASE_DIR + MEDIA_CONVERTER + instance.uploadImage.url
-    fullpath = settings.STATIC_URL + instance.uploadImage.url
+    # fullpath = settings.STATIC_URL + instance.uploadImage.url
+    fullpath = instance.uploadImage.url
 
     rotate_image(fullpath)
