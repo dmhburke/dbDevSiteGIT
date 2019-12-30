@@ -23,7 +23,8 @@ class uploadImage(models.Model):
 def update_image(sender, instance, **kwargs):
   if instance.uploadImage:
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    MEDIA_CONVERTER = '/catalog/static'
-    fullpath = BASE_DIR + MEDIA_CONVERTER + instance.uploadImage.url
+    # MEDIA_CONVERTER = '/catalog/static'
+    # fullpath = BASE_DIR + MEDIA_CONVERTER + instance.uploadImage.url
+    fullpath = settings.STATIC_URL + instance.uploadImage.url
 
     rotate_image(fullpath)
