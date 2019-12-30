@@ -1,0 +1,41 @@
+{% extends "_baseTemplate.html" %}
+
+{% block content %}
+{% load static %}
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {{form}}
+  <br>
+  <br>
+  <button type="submit">Upload</button>
+
+</form>
+
+ <br>
+ {% if uploadedImages %}
+ {% for image in uploadedImages %}
+ {% if image.uploadImage %}
+ <br>
+ Uploaded Image
+ <div class=imgContainer style="background-image:url({{ image.uploadImage.url }}); background-size: cover"></div>
+ <br>
+ {% else %}
+ Upload image fail
+ {% endif %}
+
+ Rotated Image<br>
+ {% if image.thumbnail %}
+ <img src={{image.thumbnail.url}} style="max-height: 100px">
+ {% else %}
+ Rotate image fail
+ {% endif %}
+
+
+ {% endfor %}
+ {% else %}
+ No uploaded images
+ {% endif %}
+
+{% endblock %}

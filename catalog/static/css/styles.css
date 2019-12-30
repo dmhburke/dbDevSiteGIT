@@ -1,0 +1,11 @@
+* {
+  font-family: verdana;
+  font-size: 12px;
+}
+
+/* ROTATEIMAGE */
+.imgContainer {
+  height: 80px;
+  width: 80px;
+  margin: 10px
+}

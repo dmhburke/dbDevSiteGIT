@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- BROWSER TEXT: This section shows the text that displays in the browser tab.
+NOTE: make the base template very general and then call this
+block in any subsequent page (to update the text to be page-specific) -->
+
+<title>
+
+{% block browserTitle %}
+
+{% endblock %}
+</title>
+
+<!-- MOBILE SCREEN: This section optimizes the sizing for mobile devices. Do not change -->
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- CSS: This section points to the css file that you've created -->
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<!-- JAVASCRIPT: This section points to the javascript file you've created -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+
+<!-- FAVICON: This section defines an icon to show in the browswer tab -->
+
+<link rel="icon"
+    type="image/png"
+    href=""> <!--Best practice to save the icon (in png format) to an S3 bucket and point to that-->
+
+<!-- HOMESCREEN APP: This section defines an icon to show on your mobile homescreen -->
+
+<link rel="apple-touch-icon"
+    href=""> <!--Best practice to save the icon (in png format) to an S3 bucket and point to that-->
+
+</head>
+
+<body>
+
+<!-- MOBILE CONTAINER: Sets up auto centered div width-fitted to mobile screen. DOES NOT SET VERTICAL HEIGHT -->
+<div class=mobileContainer>
+<!-- MAIN CONTENT: Each page extends this template and pipes in content within the content block -->
+
+  {% block content %}
+
+  {% endblock %}
+
+
+  </div>
+
+</body>
+</html>
