@@ -26,6 +26,7 @@ def update_image(sender, instance, **kwargs):
     # MEDIA_CONVERTER = '/catalog/static'
     # fullpath = BASE_DIR + MEDIA_CONVERTER + instance.uploadImage.url
     # fullpath = settings.STATIC_URL + instance.uploadImage.url
-    fullpath = instance.uploadImage.url
+    fullpath = settings.MEDIA_ROOT + instance.uploadImage.url
+    newpath = 's3://db-devsite1/media/uploadImage/C05AB49C-B0D4-4796-8E71-E2438616EA4D_v4KIGm6.jpeg'
 
-    rotate_image(fullpath)
+    rotate_image(newpath)
