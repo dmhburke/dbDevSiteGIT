@@ -3,6 +3,8 @@
 {% block content %}
 {% load static %}
 
+<!-- FORM SECTION -->
+
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
@@ -13,8 +15,12 @@
 
 </form>
 
+<!-- RESULTS SECTION -->
  <br>
+ <!-- Check if any uploaded images  -->
  {% if uploadedImages %}
+
+ <!--  Uploaded image results -->
  {% for image in uploadedImages %}
  {% if image.uploadImage %}
  <br>
@@ -24,18 +30,18 @@
  {% else %}
  Upload image fail
  {% endif %}
-
- Rotated Image<br>
- {% if image.thumbnail %}
- <img src={{image.thumbnail.url}} style="max-height: 100px">
- {% else %}
- Rotate image fail
- {% endif %}
-
-
  {% endfor %}
+
+ <!-- Result if no uploaded images  -->
  {% else %}
  No uploaded images
  {% endif %}
+
+<!-- Link to admin  -->
+<br><br>
+ <a href="{% url 'admin:index' %}" target="_blank">
+Go to admin
+ </a>
+
 
 {% endblock %}
