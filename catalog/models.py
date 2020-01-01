@@ -35,7 +35,7 @@ def update_image(sender, instance, **kwargs):
       # Download instance.uploadImage from S3 to temp folder
       s3_client = boto3.client('s3')
       my_bucket = settings.AWS_STORAGE_BUCKET_NAME
-      target_image = instance.uploadImage
+      target_image = instance.uploadImage.url
       temp_folder = '/tmp/'
       full_path = temp_folder + target_image
 
