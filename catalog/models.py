@@ -35,14 +35,16 @@ def update_image(sender, instance, **kwargs):
       # Download instance.uploadImage from S3 to temp folder
       s3_client = boto3.client('s3')
       my_bucket = settings.AWS_STORAGE_BUCKET_NAME
+      subfolder_path = 'media/uploadImage/'
       target_image = instance.uploadImage.url
+      image_path = subfolder_path + target_image
       temp_folder = '/tmp/'
       fullpath = temp_folder + target_image
 
-      s3_client.download_file(my_bucket, target_image, fullpath)
+      s3_client.download_file(my_bucket, image_path, fullpath)
 
       # Rotate image in temp folder
       rotate_image(fullpath)
 
       # Upload rotated image from temp folder back to S3
-      s3_client.upload_file(fullpath, my_bucket, target_image)
+      s3_client.upload_file(fullpath, my_bucket, image_path)
