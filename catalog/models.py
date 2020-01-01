@@ -37,7 +37,7 @@ def update_image(sender, instance, **kwargs):
       my_bucket = settings.AWS_STORAGE_BUCKET_NAME
       target_image = instance.uploadImage.url
       temp_folder = '/tmp/'
-      full_path = temp_folder + target_image
+      fullpath = temp_folder + target_image
 
       s3_client.download_file(my_bucket, target_image, fullpath)
 
