@@ -24,25 +24,25 @@ class uploadImage(models.Model):
 @receiver(post_save, sender=uploadImage, dispatch_uid="update_image_profile")
 def update_image(sender, instance, **kwargs):
   if instance.uploadImage:
-      # DEVELOPMENT
-      BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-      MEDIA_CONVERTER = '/catalog/static'
-      fullpath = BASE_DIR + MEDIA_CONVERTER + instance.uploadImage.url
+      # # DEVELOPMENT
+      # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+      # MEDIA_CONVERTER = '/catalog/static'
+      # fullpath = BASE_DIR + MEDIA_CONVERTER + instance.uploadImage.url
+      #
+      # rotate_image(fullpath)
 
+      # PRODUCTION
+      # Download instance.uploadImage from S3 to temp folder
+      s3_client = boto3.client('s3')
+      my_bucket = settings.AWS_STORAGE_BUCKET_NAME
+      target_image = instance.uploadImage
+      temp_folder = '/tmp/'
+      full_path = temp_folder + target_image
+
+      s3_client.download_file(my_bucket, target_image, fullpath)
+
+      # Rotate image in temp folder
       rotate_image(fullpath)
 
-      # # PRODUCTION
-      # # Download instance.uploadImage from S3 to temp folder
-      # s3_client = boto3.client('s3')
-      # my_bucket = settings.AWS_STORAGE_BUCKET_NAME
-      # target_image = instance.uploadImage
-      # temp_folder = '/tmp/'
-      # full_path = temp_folder + target_image
-      #
-      # s3_client.download_file(my_bucket, target_image, fullpath)
-      #
-      # # Rotate image in temp folder
-      # rotate_image(fullpath)
-      #
-      # # Upload rotated image from temp folder back to S3
-      # s3_client.upload_file(fullpath, my_bucket, target_image)
+      # Upload rotated image from temp folder back to S3
+      s3_client.upload_file(fullpath, my_bucket, target_image)
