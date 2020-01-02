@@ -13,8 +13,6 @@ def rotateimage (request):
     if request.method == 'POST':
         form = uploadImageForm(request.POST, request.FILES)
         if form.is_valid():
-            # post = form.save(commit=False)
-            # uploadImage = post.uploadImage
             form.save()
             return redirect('rotateimage')
     else:
