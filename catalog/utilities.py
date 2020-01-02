@@ -2,7 +2,7 @@ from PIL import Image, ExifTags
 
 def rotate_image(filepath):
 
-    dev_test = "On"
+    dev_test = "Off"
 
     if dev_test == "Off":
         try:
