@@ -10,7 +10,7 @@ from django.dispatch import receiver
 from django.conf import settings
 import boto3
 from PIL import Image as Img
-from exiffield.fields import ExifField
+# from exiffield.fields import ExifField
 
 
 # Create your models here.
