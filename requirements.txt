@@ -15,8 +15,6 @@ numpy==1.18.1
 Pillow==6.2.1
 playsound==1.2.2
 psycopg2-binary==2.8.4
-pyobjc==6.1
-pyobjc-core==6.1
 pyobjc-framework-Accounts==6.1
 pyobjc-framework-AddressBook==6.1
 pyobjc-framework-AdSupport==6.1
