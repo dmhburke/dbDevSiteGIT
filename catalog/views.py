@@ -37,8 +37,7 @@ adjective1 = 'Frenchette'
 player1 = 'Lisa'
 player2 = 'Daniel'
 
-round_report_text = """Hello {} and welcome home! I've been looking forward to seeing you\n
-How was {}? {} and I have been busy playing all evening.
+round_report_text = """Hello {} - this is the original text!
 
 """.format(
             player1,
@@ -55,7 +54,7 @@ def pollyset(request):
 
     return render(request, 'pollyset.html', context=context)
 
-def pollytest (request):
+def pollyplay (request):
     import boto3
     from botocore.exceptions import BotoCoreError, ClientError
     from contextlib import closing
@@ -76,13 +75,17 @@ def pollytest (request):
                         OutputFormat='mp3',
                         Text = text,
                         Engine='neural')
+
         #Create and save audio file
         filename = 'RoundReport-' + version + '-' + voice + '.mp3'
         file = open(filename, 'wb')
         file.write(response['AudioStream'].read())
         file.close()
+
         #Play audio file when function is executed
-        return_code = subprocess.call(['afplay', filename])
+        from playsound import playsound
+        playsound(filename)
+        # return_code = subprocess.call(['afplay', filename])
 
     # Set report specifics
     speaker_persona = 'Kendra' #<-- Can be form input
@@ -94,4 +97,4 @@ def pollytest (request):
         'round_report_text': round_report_text,
     }
 
-    return render(request, 'pollytest.html', context=context)
+    return render(request, 'pollyplay.html', context=context)
