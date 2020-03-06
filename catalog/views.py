@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 
 #Import models here
@@ -13,30 +14,14 @@ def rotateimage (request):
     if request.method == 'POST':
         form = uploadImageForm(request.POST, request.FILES)
         if form.is_valid():
+            # post = form.save(commit=False)
+            # uploadImage = post.uploadImage
             form.save()
             return redirect('rotateimage')
     else:
         form = uploadImageForm()
 
     uploadedImages = uploadImage.objects.all().order_by('-uploaded_at')
-
-    # deleteImageValue = {}
-    #
-    # if request.method == 'POST':
-    #     deleteForm = deleteImageForm(request.POST)
-    #     if deleteForm.is_valid():
-    #         # post = deleteForm.save(commit=False)
-    #         # uploadImage = post.uploadImage
-    #         deleteImageValue = "Yes"
-    #         post.save()
-    #         return redirect('rotateimage')
-    # else:
-    #     deleteForm = deleteImageForm()
-    #
-    # if deleteImageValue == "Yes":
-    #     uploadImage.objects.all().delete()
-    # else:
-    #     pass
 
     context = {
         'form': form,
@@ -46,3 +31,67 @@ def rotateimage (request):
     }
 
     return render(request, 'rotateimage.html', context=context)
+
+# Set content variables for report
+adjective1 = 'Frenchette'
+player1 = 'Lisa'
+player2 = 'Daniel'
+
+round_report_text = """Hello {} and welcome home! I've been looking forward to seeing you\n
+How was {}? {} and I have been busy playing all evening.
+
+""".format(
+            player1,
+            adjective1,
+            player2
+            )
+
+
+def pollyset(request):
+
+    context={
+            'round_report_text': round_report_text,
+    }
+
+    return render(request, 'pollyset.html', context=context)
+
+def pollytest (request):
+    import boto3
+    from botocore.exceptions import BotoCoreError, ClientError
+    from contextlib import closing
+    import os
+    import sys
+    import subprocess
+    from tempfile import gettempdir
+    import subprocess
+
+    # Define session
+    polly_client = boto3.Session().client('polly',region_name='us-east-1')
+
+    # Function to create audio file
+    def createReport(text, version, voice):
+        #Define Polly synthesize_speech request
+        response = polly_client.synthesize_speech(
+                        VoiceId=voice,
+                        OutputFormat='mp3',
+                        Text = text,
+                        Engine='neural')
+        #Create and save audio file
+        filename = 'RoundReport-' + version + '-' + voice + '.mp3'
+        file = open(filename, 'wb')
+        file.write(response['AudioStream'].read())
+        file.close()
+        #Play audio file when function is executed
+        return_code = subprocess.call(['afplay', filename])
+
+    # Set report specifics
+    speaker_persona = 'Kendra' #<-- Can be form input
+    version = '1'
+
+    createReport(round_report_text, version, speaker_persona)
+
+    context = {
+        'round_report_text': round_report_text,
+    }
+
+    return render(request, 'pollytest.html', context=context)
