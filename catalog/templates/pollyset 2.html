@@ -1,0 +1,11 @@
+{% extends "_baseTemplate.html" %}
+
+{% block content %}
+{% load static %}
+
+{{round_report_text|linebreaks}}
+
+<a href="{% url 'pollyplay' %}" target="_blank">
+<div style="width: 100px; height: 50px; background-color: black; color: white;">Play</div></a>
+
+{% endblock %}
