@@ -29,7 +29,6 @@ pytz==2019.3
 s3transfer==0.2.1
 scikit-learn==0.22.2.post1
 scipy==1.4.1
-simpleaudio==1.0.4
 six==1.13.0
 sklearn==0.0
 sqlparse==0.3.0
