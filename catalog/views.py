@@ -93,7 +93,6 @@ def pollyplay (request, voice):
     import sys
     import subprocess
     from tempfile import gettempdir
-    import subprocess
 
     round_report_text = request.session['round_report_text']
 
@@ -110,16 +109,18 @@ def pollyplay (request, voice):
                         Engine='standard')
 
         #Create and save audio file
-        filename = 'RoundReport-' + version + '-' + voice + '.mp3'
+        filename = 'RoundReport-' + version + '-' + voice
         file = open(filename, 'wb')
         file.write(response['AudioStream'].read())
         file.close()
 
-        #Play audio file when function is executed
+        # - playsound option -- WORKS WELL but FAILS ON HEROKU BUILD
+        # from playsound import playsound
+        # playsound(filename)
 
+        #Play audio file when function is executed
         # - local CLI -- WORKS WELL DOESNT WORK AWAY FROM LOCAL MACHINE
         # return_code = subprocess.call(['afplay', filename])
-
         # - pyglet option -
         # import pyglet
         #
@@ -127,17 +128,11 @@ def pollyplay (request, voice):
         # music.play()
         #
         # pyglet.app.run()
-
-        # - playsound option -- WORKS WELL but FAILS ON HEROKU BUILD
-        from playsound import playsound
-        playsound(filename)
-
         # - simpleaudio option FAILS AS NO MP3 SUPPORT (and Polly has no wave format)
         # import simpleaudio as sa
         # wave_obj = sa.WaveObject.from_wave_file(filename)
         # play_obj = wave_obj.play()
         # play_obj.wait_done()
-
         # - pydub option FAILS ERROR NO SUCH FILE/DIRECTORY AS FFPROBE
         # from pydub import AudioSegment
         # from pydub.playback import play
@@ -145,11 +140,29 @@ def pollyplay (request, voice):
         # sound = AudioSegment.from_mp3(filename)
         # play(sound)
 
+        from os import environ as CONFIG
+        AWS_ACCESS_KEY_ID = CONFIG['AWS_ACCESS_KEY_ID']
+        AWS_SECRET_ACCESS_KEY = CONFIG['AWS_SECRET_ACCESS_KEY']
+        AWS_STORAGE_BUCKET_NAME = CONFIG['AWS_STORAGE_BUCKET_NAME']
 
-    # Set report specifics
+        s3_filename = filename + '.mp3'
+
+        s3_client = boto3.client('s3')
+        try:
+            response = s3_client.upload_file(filename, AWS_STORAGE_BUCKET_NAME, s3_filename)
+        except ClientError as e:
+            logging.error(e)
+            return False
+        return True
+
+
+# Set report specifics
     version = '1'
-
+# CALL CREATE REPORT FUNCTION TO GENERATE REPORT
     createReport(round_report_text, version, voice)
+
+# SAVE REPORT TO
+
 
     context = {
         # 'round_report_text': round_report_text,
