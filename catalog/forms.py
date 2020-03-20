@@ -30,3 +30,14 @@ class PollyForm(forms.Form):
     def player_input(self,request):
         playerSelect = self.cleaned_data['playerInput']
         return playerSelect
+
+# === VIRTUAL COCKTAIL ===
+from django import forms
+from catalog.models import transactionRecord
+
+class OrderForm(forms.ModelForm):
+    number_input = forms.IntegerField(label='', required=False)
+
+    class Meta:
+        model = transactionRecord
+        fields = ('number_input',)

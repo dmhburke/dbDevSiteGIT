@@ -1,0 +1,22 @@
+{% extends "_baseTemplate.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class=tempBuffer>
+<div class="brandHeader">Virtual cocktail</div>
+
+<div id=homepageSearchBox></div></div>
+
+<div class=tileBox>
+{% for restaurant in restaurant_list %}
+
+  <a href="{% url 'restaurantdetail' restaurant.restaurant_name.restaurant_name %}">
+  <div class=restaurantTile>{{restaurant.restaurant_name.restaurant_name}}</div></a>
+
+{% endfor %}
+
+</div>
+
+
+{% endblock %}

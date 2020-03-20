@@ -1,0 +1,47 @@
+{% extends "_baseTemplate.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class=tempBuffer>
+<div class="brandHeader">{{restaurant_name}}</div>
+</div>
+
+<div id=formBox>
+<form method="post">
+  {% csrf_token %}
+
+  Enter number of cocktails<br>
+  <div id=formValue>{{form.number_input}}</div>
+
+  <span>Total = $</span><span id="ajaxValue">0</span>
+
+  <br>
+  <br>
+
+  <button type=submit>Submit</button>
+
+  </form>
+  </div>
+
+<a href="{% url 'cocktailhomepage' %}">
+<div id=toHomepageButton>Back to homepage</div></a>
+
+
+  {% block javascript %}
+  <script>
+
+    var input = document.getElementById("formValue"),
+      display=document.getElementById("ajaxValue"),
+      input_value = document.getElementById("id_number_input");
+
+    input.oninput=function(){
+      update_value = input_value.value
+      display.innerHTML = update_value * 15;
+      };
+
+  </script>
+  {% endblock %}
+
+
+{% endblock %}

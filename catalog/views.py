@@ -114,13 +114,14 @@ def pollyplay (request, voice):
         file.write(response['AudioStream'].read())
         file.close()
 
-        # - playsound option -- WORKS WELL but FAILS ON HEROKU BUILD
-        # from playsound import playsound
-        # playsound(filename)
+        from playsound import playsound
+        playsound(filename)
 
         #Play audio file when function is executed
+
         # - local CLI -- WORKS WELL DOESNT WORK AWAY FROM LOCAL MACHINE
         # return_code = subprocess.call(['afplay', filename])
+
         # - pyglet option -
         # import pyglet
         #
@@ -128,11 +129,15 @@ def pollyplay (request, voice):
         # music.play()
         #
         # pyglet.app.run()
+
+        # - playsound option -- WORKS WELL but FAILS ON HEROKU BUILD
+
         # - simpleaudio option FAILS AS NO MP3 SUPPORT (and Polly has no wave format)
         # import simpleaudio as sa
         # wave_obj = sa.WaveObject.from_wave_file(filename)
         # play_obj = wave_obj.play()
         # play_obj.wait_done()
+
         # - pydub option FAILS ERROR NO SUCH FILE/DIRECTORY AS FFPROBE
         # from pydub import AudioSegment
         # from pydub.playback import play
@@ -140,20 +145,12 @@ def pollyplay (request, voice):
         # sound = AudioSegment.from_mp3(filename)
         # play(sound)
 
-        from os import environ as CONFIG
-        AWS_ACCESS_KEY_ID = CONFIG['AWS_ACCESS_KEY_ID']
-        AWS_SECRET_ACCESS_KEY = CONFIG['AWS_SECRET_ACCESS_KEY']
-        AWS_STORAGE_BUCKET_NAME = CONFIG['AWS_STORAGE_BUCKET_NAME']
-
-        s3_filename = filename + '.mp3'
-
-        s3_client = boto3.client('s3')
-        try:
-            response = s3_client.upload_file(filename, AWS_STORAGE_BUCKET_NAME, s3_filename)
-        except ClientError as e:
-            logging.error(e)
-            return False
-        return True
+    # from catalog.settings import *
+    #
+    # s3 = boto3.client(
+    # "s3",
+    # aws_access_key_id=
+    # )
 
 
 # Set report specifics
@@ -161,7 +158,6 @@ def pollyplay (request, voice):
 # CALL CREATE REPORT FUNCTION TO GENERATE REPORT
     createReport(round_report_text, version, voice)
 
-# SAVE REPORT TO
 
 
     context = {
@@ -169,3 +165,64 @@ def pollyplay (request, voice):
     }
 
     return render(request, 'pollyplay.html', context=context)
+
+#===VIRTUAL COCKTAIL===
+from django.shortcuts import render, redirect
+
+#Import models here
+from catalog.models import masterRecord, restaurantRecord, transactionRecord
+
+#Import forms here
+from catalog.forms import OrderForm
+
+
+def cocktailhomepage(request):
+
+    # generate list of restaurants
+    restaurant_list = masterRecord.objects.all()
+
+    context = {
+    'restaurant_list': restaurant_list,
+    }
+
+    return render(request, 'cocktailhomepage.html', context=context)
+
+def restaurantdetail(request, restaurant_name):
+
+    restaurant_name = restaurantRecord.objects.get(restaurant_name=restaurant_name)
+    restaurant_image = restaurant_name.background_image
+
+    if request.method =='POST':
+         form = OrderForm(request.POST)
+         if form.is_valid():
+            post = form.save(commit=False)
+            post.restaurant_name = restaurant_name
+            post.number_input = post.number_input
+            post.amount = post.number_input * 15
+            post.save()
+            return redirect('paymentconfirm')
+
+    else:
+          form = OrderForm()
+
+    request.session['restaurant_name'] = restaurant_name.restaurant_name
+
+    context = {
+    'restaurant_name': restaurant_name,
+    'restaurant_image': restaurant_image,
+    'form': form,
+    }
+
+    return render(request, 'restaurantdetail.html', context=context)
+
+def paymentconfirm(request):
+
+    restaurant_name = request.session['restaurant_name']
+    number_output = transactionRecord.objects.latest('number_input').number_input
+
+    context = {
+    'restaurant_name': restaurant_name,
+    'number_output': number_output,
+    }
+
+    return render(request, 'paymentconfirm.html', context=context)

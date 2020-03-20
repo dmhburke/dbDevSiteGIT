@@ -1,6 +1,9 @@
 * {
   font-family: verdana;
   font-size: 12px;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
 /* ROTATEIMAGE */
@@ -8,4 +11,86 @@
   height: 80px;
   width: 80px;
   margin: 10px
+}
+
+/* VIRTUAL COCKTAIL */
+
+:root {
+  --mainColor: #26363b;
+  --header1: 30px;
+}
+
+.tempBuffer {
+  position: absolute;
+  height: 120px;
+  width: 100%;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+
+.brandHeader {
+  color: var(--mainColor);
+  font-size: var(--header1);
+  font-weight: bold;
+}
+
+#homepageSearchBox {
+  width: 90%;
+  height: 30px;
+  border-radius: 10px;
+  background-color: white;
+  margin: 15px auto;
+}
+
+.tileBox {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  top: 130px;
+  width: 100%;
+  min-height: 400px;
+  padding: 5px 25px;
+  overflow: scroll;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.restaurantTile {
+  height: 140px;
+  width: 140px;
+  border-radius: 10px;
+  background-color: #F2F2F2;
+  margin: 0 10px;
+  text-align: center;
+  line-height: 130px;
+}
+
+#restaurantImage {
+  position: absolute;
+  top: 200px;
+  height: 100px;
+  width: 100px;
+}
+
+#formBox {
+  position: absolute;
+  top: 200px;
+  left: 60px;
+  height: 200px;
+  width: 250px;
+  background-color: #f2f2f2;
+  padding: 20px;
+
+}
+
+#id_number_input {
+
+}
+
+#toHomepageButton {
+  position: absolute;
+  bottom: 50px;
+  height: 50px;
+  width: 100px;
+  background-color: #F2F2F2;
 }
