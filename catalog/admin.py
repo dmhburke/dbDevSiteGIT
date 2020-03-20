@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from catalog.models import uploadImage, reportInput, restaurantRecord, transactionRecord, masterRecord
+from catalog.models import uploadImage, reportInput, restaurantRecord, transactionRecord, masterRecord, addRestaurant
 
 #Define admin class - UPLOADIMAGES
 class uploadImageAdmin(admin.ModelAdmin):
@@ -20,6 +20,11 @@ class reportInputAdmin(admin.ModelAdmin):
 admin.site.register(reportInput, reportInputAdmin)
 
 #===VIRTUAL COCKTAIL===
+class addRestaurantAdmin(admin.ModelAdmin):
+     list_display = ('restaurant_name', 'is_yours', 'phone_number', 'email_address', 'instagram_handle')
+
+# Register the admin class with the associated model
+admin.site.register(addRestaurant, addRestaurantAdmin)
 
 #Define admin class - create restaurant record
 class restaurantRecordAdmin(admin.ModelAdmin):

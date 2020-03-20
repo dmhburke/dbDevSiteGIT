@@ -16,5 +16,7 @@ urlpatterns = [
     # - restaurantDetail
     path('restaurantdetail/<restaurant_name>', views.restaurantdetail, name='restaurantdetail'),
     # - payment confirm
-    path('paymentconfirm', views.paymentconfirm, name='paymentconfirm')
+    path('paymentconfirm', views.paymentconfirm, name='paymentconfirm'),
+    # - add restaurant
+    path('submitrestaurant', views.submitrestaurant, name='submitrestaurant')
 ]

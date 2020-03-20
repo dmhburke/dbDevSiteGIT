@@ -58,6 +58,13 @@ class reportInput(models.Model):
 
 # === VIRTUAL COCKTAIL ===
 
+class addRestaurant(models.Model):
+    restaurant_name = models.CharField(max_length=100, blank=True, null=True)
+    is_yours = models.CharField(max_length=50, blank=True, null=True)
+    phone_number = models.CharField(max_length=50, blank=True, null=True)
+    instagram_handle = models.CharField(max_length=50, blank=True, null=True)
+    email_address = models.CharField(max_length=50, blank=True, null=True)
+
 class restaurantRecord(models.Model):
     restaurant_name = models.CharField(max_length=50, blank=True, null=True)
     background_image = models.ImageField(upload_to='vcUploadImage', blank=True, null=True)

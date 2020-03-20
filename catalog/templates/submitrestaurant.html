@@ -1,0 +1,52 @@
+{% extends "_baseTemplate.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class=tempBuffer>
+<div class="brandHeader">Submit a new business</div>
+
+<form method="post">
+  {% csrf_token %}
+<div id=formBox>
+  Business name<br>
+  {{form.restaurant_name}}<br><br>
+  Is this your business?<br>
+  <div id=isYoursInput>{{form.is_yours}}</div><br><br>
+  <div id=isYourBusinessBox>
+  Great! <br><br>
+  What's your best phone number?<br>
+  {{form.phone_number}}<br>
+  What's your best email?<br>
+  {{form.email_address}}<br>
+  What's your business' Instagram handle?<br>
+  {{form.instagram_handle}}<br>
+  We'll be in touch asap to get you on Virtual Cocktail!
+  </div>
+
+  <button id=homepageInputButton type=submit>Submit</button></div>
+
+</form>
+</div>
+
+<a href="{% url 'cocktailhomepage' %}">
+<div id=toHomepageButton>Back to homepage</div></a>
+
+<script>
+
+  var input = document.getElementById("isYoursInput"),
+    display=document.getElementById("isYourBusinessBox"),
+    input_value = document.getElementById("id_is_yours");
+
+  input.oninput=function(){
+    if (input_value.value == "YES") {
+      display.style.height = "270px";
+    };
+    };
+
+</script>
+
+
+
+
+{% endblock %}

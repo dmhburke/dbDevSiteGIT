@@ -168,20 +168,41 @@ def pollyplay (request, voice):
 
 #===VIRTUAL COCKTAIL===
 from django.shortcuts import render, redirect
+import os
+from django.conf import settings
+from django.db.models import Q
 
 #Import models here
-from catalog.models import masterRecord, restaurantRecord, transactionRecord
+from catalog.models import masterRecord, restaurantRecord, transactionRecord, addRestaurant
 
 #Import forms here
-from catalog.forms import OrderForm
+from catalog.forms import OrderForm, RestaurantSearchForm, AddRestaurantForm
 
 
 def cocktailhomepage(request):
 
+    restaurant_select = []
+
+    if request.method =='POST':
+         form = RestaurantSearchForm(request.POST)
+         if form.is_valid():
+             restaurant_select = form.search_input(request)
+
+    else:
+          form = RestaurantSearchForm()
+
     # generate list of restaurants
-    restaurant_list = masterRecord.objects.all()
+    # restaurant_list = ""
+
+    if len(restaurant_select) == 0:
+        restaurant_list = masterRecord.objects.all()
+    else:
+        restaurant_list = masterRecord.objects.filter(
+        Q(restaurant_name__restaurant_name__contains=restaurant_select)
+        ).order_by('-total_amount')
 
     context = {
+    'form': form,
     'restaurant_list': restaurant_list,
     }
 
@@ -190,6 +211,7 @@ def cocktailhomepage(request):
 def restaurantdetail(request, restaurant_name):
 
     restaurant_name = restaurantRecord.objects.get(restaurant_name=restaurant_name)
+
     restaurant_image = restaurant_name.background_image
 
     if request.method =='POST':
@@ -226,3 +248,22 @@ def paymentconfirm(request):
     }
 
     return render(request, 'paymentconfirm.html', context=context)
+
+def submitrestaurant(request):
+
+    if request.method =='POST':
+         form = AddRestaurantForm(request.POST)
+         if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect('submitrestaurant') # change to confirmation page
+    else:
+          form = AddRestaurantForm()
+
+    context = {
+
+    'form': form,
+
+    }
+
+    return render(request, 'submitrestaurant.html', context=context)

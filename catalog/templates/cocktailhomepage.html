@@ -6,7 +6,13 @@
 <div class=tempBuffer>
 <div class="brandHeader">Virtual cocktail</div>
 
-<div id=homepageSearchBox></div></div>
+<form method="post">
+  {% csrf_token %}
+<div id=homepageSearchBox>
+  {{form.find_restaurant}}
+  <button id=homepageInputButton type=submit>Search</button></div>
+</form>
+</div>
 
 <div class=tileBox>
 {% for restaurant in restaurant_list %}
@@ -16,7 +22,10 @@
 
 {% endfor %}
 
+<a href="{% url 'submitrestaurant' %}">
+<div id=requestRestaurant>Add a restaurant</div></a>
 </div>
+
 
 
 {% endblock %}
