@@ -198,7 +198,7 @@ def cocktailhomepage(request):
         restaurant_list = masterRecord.objects.all()
     else:
         restaurant_list = masterRecord.objects.filter(
-        Q(restaurant_name__restaurant_name__contains=restaurant_select)
+        Q(restaurant_name__restaurant_name__icontains=restaurant_select)
         ).order_by('-total_amount')
 
     context = {
