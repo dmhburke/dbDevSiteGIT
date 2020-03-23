@@ -285,5 +285,6 @@ def instatest(request):
     context = {}
 
     ####COMMENTS TO CHECK GIT CHANGES MADE 4:43PM#####
+    #### AND NOW THESE ARE NEW COMMENTS MADE 4:58PM#####
 
     return render(request, 'instatest.html', context=context)
