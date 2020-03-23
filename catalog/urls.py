@@ -10,6 +10,7 @@ urlpatterns = [
     path('pollyset', views.pollyset, name='pollyset'),
     # - page for playing audio
     path('pollyplay/<voice>', views.pollyplay, name='pollyplay'),
+
     # VIRTUAL COCKTAIL
     # - homepage
     path('cocktailhomepage', views.cocktailhomepage, name='cocktailhomepage'),
@@ -18,5 +19,8 @@ urlpatterns = [
     # - payment confirm
     path('paymentconfirm', views.paymentconfirm, name='paymentconfirm'),
     # - add restaurant
-    path('submitrestaurant', views.submitrestaurant, name='submitrestaurant')
+    path('submitrestaurant', views.submitrestaurant, name='submitrestaurant'),
+
+    # INSTAGRAM TEST
+    path('instatest', views.instatest, name='instatest')
 ]

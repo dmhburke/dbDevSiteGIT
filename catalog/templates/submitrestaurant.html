@@ -1,7 +1,5 @@
 {% extends "_baseTemplate.html" %}
 
-<!-- TEST COMMENTS FOR BRANCH -->
-
 {% block content %}
 {% load static %}
 
@@ -37,10 +35,10 @@
 <script>
 
   var input = document.getElementById("isYoursInput"),
-    display=document.getElementById("isYourBusinessBox"),
+    display = document.getElementById("isYourBusinessBox"),
     input_value = document.getElementById("id_is_yours");
 
-  input.oninput=function(){
+  input.oninput = function(){
     if (input_value.value == "YES") {
       display.style.height = "270px";
     };

@@ -267,3 +267,21 @@ def submitrestaurant(request):
     }
 
     return render(request, 'submitrestaurant.html', context=context)
+
+def instatest(request):
+
+    from instapy_cli import client
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+    username = 'virtualcocktailorg' #your username
+    password = 'Rooster2020' #your password
+    image = 'minettaImage_h3pc9Np.jpeg' #here you can put the image directory
+    text = '' #Here you can put your caption for the post' + '\r\n' + 'you can also put your hashtags #pythondeveloper #webdeveloper'
+
+    with client(username, password) as cli:
+        cli.upload(image, text)
+
+    context = {}
+
+    return render(request, 'instatest.html', context=context)
